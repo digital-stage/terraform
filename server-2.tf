@@ -5,7 +5,7 @@ resource "digitalocean_droplet" "server-2" {
   size = "s-1vcpu-1gb"
   private_networking = true
   ssh_keys = [
-    data.digitalocean_ssh_key.terraform.id
+    data.digitalocean_ssh_key.DigitalStage.id
   ]
   connection {
     host = self.ipv4_address
