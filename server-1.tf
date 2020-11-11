@@ -17,12 +17,17 @@ resource "digitalocean_droplet" "server-1" {
   provisioner "remote-exec" {
     inline = [
       "export PATH=$PATH:/usr/bin",
-      # install nginx
+      # install node
       "sudo apt-get update",
-      "sudo apt-get -y install node"
-      "git clone https://github.com/digital-stage/server.git"
-      "cd server"
-      "npm run install && npm run build"
+      "curl -sL https://deb.nodesource.com/setup_15.x | sudo -E bash -",
+      "sudo apt-get -y install nodejs",
+      # install pm2 to daemonize the process
+      "npm install pm2@latest -g",
+      # clone and build server
+      "git clone https://github.com/digital-stage/server.git",
+      "cd server",
+      "npm run install && npm run build",
+      "pm2 start dist/index.js"
     ]
   }
 }
